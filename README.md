@@ -1,4 +1,4 @@
-# Counter_4bit_up-down
+# EXP 2: BIT Up-Down Counter - Write Verilog Code and Verify the Functionality using Test-bench
 
 ## Aim:
 
@@ -41,6 +41,8 @@ Functional Simulation:
       (The path of cshrc could vary depending on the installation destination)
       
 	After this you can see the window like below 
+![WhatsApp Image 2024-11-25 at 12 08 13_48c2763c](https://github.com/user-attachments/assets/8f286a35-15dc-49cf-a7ff-91203b584276)
+
 
 
 ## Fig 2: Invoke the Cadence Environment
@@ -55,9 +57,22 @@ Functional Simulation:
 (Note : File name should be with HDL Extension)
 
 ### Verilog code for 4-Bit Up-Down Counter:
-
-*/Program  for  4-Bit Up-Down Counter
-
+```
+`timescale 1ns / 1 ns
+module counter(clk,m,rst,count);
+input clk,m,rst;
+output reg [3:0] count;
+always@(posedge clk or negedge rst)
+begin
+if (!rst)
+count=0;
+else if(m)
+count=count+1;
+else
+count=count-1;
+end
+endmodule
+```
 	Use Save option or Ctrl+S to save the code or click on the save option from the top most right corner and close the text file.
 
 ## Creating Test bench:
@@ -66,7 +81,34 @@ Functional Simulation:
 
 ### Test-bench code for 4-Bit Up-Down Counter:
 
-*/Test bench Program  for  4-Bit Up-Down Counter
+```
+`timescale 1ns / 1ns
+module counter_test;
+reg clk,rst,m;
+wire [3:0] count;
+initial
+begin
+clk=0;
+rst=0;#5;
+rst=1;
+end
+initial
+begin
+m=1;
+#160 m=0;
+end
+
+counter counter1 (clk,m,rst, count);
+
+always #5 clk=~clk;
+ 
+initial $monitor("Time=%t rst=%b clk=%b count=%b" , $time,rst,clk,count);
+
+initial
+#320 $finish;
+
+endmodule
+```
 
 ### To Launch Simulation tool
 	linux:/> nclaunch -new&            // “-new” option is used for invoking NCVERILOG for the first time for any design
@@ -74,12 +116,17 @@ Functional Simulation:
 	linux:/> nclaunch&                 // On subsequent calls to NCVERILOG
 
 It will invoke the nclaunch window for functional simulation we can compile,elaborate and simulate it using Multiple step
+![WhatsApp Image 2024-11-25 at 12 08 13_5ef72a19](https://github.com/user-attachments/assets/792f1675-fbf3-43c2-9383-9e2e687838fa)
+
 
 ## Fig 3: Setting Multi-step simulation
 
 Select Multiple Step and then select “Create cds.lib File” as shown in below figure
 
 Click the cds.lib file and save the file by clicking on Save option
+
+![WhatsApp Image 2024-11-25 at 12 08 13_4dc17b9c](https://github.com/user-attachments/assets/9a73268e-4e09-428d-879b-a9b01e4c9cea)
+
 
 ## Fig 4: cds.lib file Creation
 
@@ -98,6 +145,8 @@ Click the cds.lib file and save the file by clicking on Save option
 	Left side you can see the HDL files. Right side of the window has worklib and snapshots directories listed.
 
 	Worklib is the directory where all the compiled codes are stored while Snapshot will have output of elaboration which in turn goes for simulation
+![WhatsApp Image 2024-11-25 at 12 08 13_b4501832](https://github.com/user-attachments/assets/96d619d2-a9dc-4997-b6a7-d85082cb6a36)
+
 
 ## Fig 6: Nclaunch Window
 
@@ -122,6 +171,9 @@ i.e Cadence IES command for compile: ncverilog +access+rwc -compile fa.v
 Left side select the file and in Tools : launch verilog compiler with current selection will get enable. Click it to compile the code 
 
 Worklib is the directory where all the compiled codes are stored while Snapshot will have output of elaboration which in turn goes for simulation 
+
+![WhatsApp Image 2024-11-25 at 12 08 14_b74ef90d](https://github.com/user-attachments/assets/944caa6e-9854-494d-bb22-d34e8583105a)
+
 
 ## Fig 7: Compiled database in worklib
 
@@ -152,6 +204,10 @@ It contains statements that map logical library names to their physical director
     
 	After elaboration the file will come under snapshot. Select the test bench and simulate it. 
 
+![Uploading WhatsApp Image 2024-11-25 at 12.08.14_03b6c1b4.jpg…]()
+
+
+
 ## Fig 8: Elaboration Launch Option
 
 ### Step 3: Simulation: – Simulate with the given test vectors over a period of time to observe the output behaviour. 
@@ -163,14 +219,21 @@ It contains statements that map logical library names to their physical director
 	Simulation allow to dump design and test bench signals into a waveform 
 
 	Steps for simulation – Run the simulation command with simulator options
+![WhatsApp Image 2024-11-25 at 12 08 14_60bbd6ca](https://github.com/user-attachments/assets/e90817b4-dcc5-410b-b098-837b6c0e3f09)
+
+
 
 ## Fig 9: Design Browser window for simulation
 
+![WhatsApp Image 2024-11-25 at 12 08 14_3766b98d](https://github.com/user-attachments/assets/de9c042c-d983-4e51-86ba-5dbdeecb66e7)
+
 ## Fig 10: Simulation Waveform Window
+
+![WhatsApp Image 2024-11-25 at 12 08 14_153e0bdf](https://github.com/user-attachments/assets/38d52563-0c96-4bec-9451-0eed32157d37)
+
 
 ## Fig 11: Simulation Waveform Window
 
-### Result
+## Result: 
 
-The functionality of a 4bit_up-down asynchronous reset Counter was successfully verified using a test bench and simulated with the nclaunch tool.
-
+The 4bit up/down counter and verify the functionality using Test bench has been done verified.
